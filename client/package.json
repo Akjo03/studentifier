@@ -2,7 +2,7 @@
   "name": "studentifier-client",
   "version": "0.1.0",
   "scripts": {
-    "dev": "ng serve --open",
+    "dev": "ng serve --open --hmr",
     "build": "ng build",
     "prod": "npx http-server dist/studentifier-client -p 4200"
   },
