@@ -1,0 +1,8 @@
+version = "0.3.2"
+
+[scripts]
+run-client = "cd client; npm run dev"
+run-client-prod = "cd client; npm run build; npm run prod"
+run-server = "cd server; cargo run"
+run-server-prod = "cd server; cargo run --release"
+run-database = "surreal start --log debug --user root --pass root file://./.database"

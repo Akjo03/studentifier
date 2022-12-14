@@ -1,0 +1,17 @@
+[package]
+name = "studentifier-server"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+axum = { version = "0.6.1", features = ["headers"] }
+log = "0.4.17"
+serde = { version = "1.0.149", features = ["derive"] }
+serde_json = "1.0.89"
+simple_logger = "4.0.0"
+thiserror = "1.0.37"
+tokio = { version = "1.23.0", features = ["full"] }
+tower-http = { version = "0.3.0", features = ["cors"] }
+
+[dev-dependencies]
+anyhow = "1.0.66"
