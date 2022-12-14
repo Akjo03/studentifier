@@ -9,6 +9,6 @@ pub fn get_router() -> Router {
         .allow_origin(Any);
 
     Router::new()
-        .route("/", get(|| async { "Hello, World!" }))
+        .route("/api/v1/info", get(crate::controllers::info::info))
         .layer(cors)
 }
