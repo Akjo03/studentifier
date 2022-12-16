@@ -5,6 +5,10 @@ use serde_json::json;
 pub enum AppError {
     #[error("Failed to start server: {0}")]
     ServerStartError(String),
+    #[error("Failed to connect to SurrealDB: {0}")]
+    SurrealConnectionError(String),
+    #[error("Failed to execute query: {0}")]
+    SurrealQueryError(String),
 }
 
 #[derive(Debug)]
