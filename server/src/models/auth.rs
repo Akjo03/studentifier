@@ -1,22 +1,15 @@
-use axum::{response::IntoResponse, response::Response, Json};
+use axum::{response::IntoResponse, Json};
 use serde::{Serialize, Deserialize};
 
-pub struct User {
+#[derive(Debug, Serialize, Deserialize)]
+pub struct NewUser {
     pub id: String,
     pub username: String,
-    pub password_hash: String,
+    pub email: String,
+    pub password: String,
     pub salt: String,
-    pub refresh_token: String,
-} impl User {
-    pub fn new(id: String, username: String, password_hash: String, salt: String, refresh_token: String) -> Self {
-        Self {
-            id,
-            username,
-            password_hash,
-            salt,
-            refresh_token,
-        }
-    }
+    pub first_name: String,
+    pub last_name: String,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -27,8 +20,12 @@ pub struct LoginRequest {
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct LoginResponse {
-    pub access_token: String,
-    pub refresh_token: String,
+    access_token: String,
+    refresh_token: String,
+} impl IntoResponse for LoginResponse {
+    fn into_response(self) -> axum::response::Response {
+        Json(self).into_response()
+    }
 } impl LoginResponse {
     pub fn new(access_token: String, refresh_token: String) -> Self {
         Self {
@@ -36,21 +33,25 @@ pub struct LoginResponse {
             refresh_token,
         }
     }
-} impl IntoResponse for LoginResponse {
-    fn into_response(self) -> Response {
-        Json(self).into_response()
-    }
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct RefreshRequest {
     pub refresh_token: String,
+} impl IntoResponse for RefreshRequest {
+    fn into_response(self) -> axum::response::Response {
+        Json(self).into_response()
+    }
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct RefreshResponse {
-    pub access_token: String,
-    pub refresh_token: String,
+    access_token: String,
+    refresh_token: String,
+} impl IntoResponse for RefreshResponse {
+    fn into_response(self) -> axum::response::Response {
+        Json(self).into_response()
+    }
 } impl RefreshResponse {
     pub fn new(access_token: String, refresh_token: String) -> Self {
         Self {
@@ -58,28 +59,58 @@ pub struct RefreshResponse {
             refresh_token,
         }
     }
-} impl IntoResponse for RefreshResponse {
-    fn into_response(self) -> Response {
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct RegisterRequest {
+    pub username: String,
+    pub email: String,
+    pub password: String,
+    pub first_name: String,
+    pub last_name: String,
+} impl IntoResponse for RegisterRequest {
+    fn into_response(self) -> axum::response::Response {
         Json(self).into_response()
+    }
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct RegisterResponse {
+    access_token: String,
+    refresh_token: String,
+} impl IntoResponse for RegisterResponse {
+    fn into_response(self) -> axum::response::Response {
+        Json(self).into_response()
+    }
+} impl RegisterResponse {
+    pub fn new(access_token: String, refresh_token: String) -> Self {
+        Self {
+            access_token,
+            refresh_token,
+        }
     }
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct LogoutRequest {
     pub refresh_token: String,
+} impl IntoResponse for LogoutRequest {
+    fn into_response(self) -> axum::response::Response {
+        Json(self).into_response()
+    }
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct LogoutResponse {
-    pub message: String,
+    message: String,
+} impl IntoResponse for LogoutResponse {
+    fn into_response(self) -> axum::response::Response {
+        Json(self).into_response()
+    }
 } impl LogoutResponse {
     pub fn new(message: String) -> Self {
         Self {
             message,
         }
-    }
-} impl IntoResponse for LogoutResponse {
-    fn into_response(self) -> Response {
-        Json(self).into_response()
     }
 }

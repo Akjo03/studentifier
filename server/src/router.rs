@@ -1,17 +1,24 @@
+use crate::controllers;
 use axum::{
-    Router,
-    routing::{get, post},
+    routing::{
+        get, post
+    },
+    Router
 };
-use tower_http::cors::{ Any, CorsLayer };
+use tower_http::cors::{
+    Any,
+    CorsLayer
+};
 
 pub fn get_router() -> Router {
     let cors = CorsLayer::new()
         .allow_origin(Any);
 
     Router::new()
-        .route("/api/v1/info", get(crate::controllers::info::info))
-        .route("/api/v1/auth/login", post(crate::controllers::auth::login))
-        .route("/api/v1/auth/refresh", post(crate::controllers::auth::refresh))
-        .route("/api/v1/auth/logout", post(crate::controllers::auth::logout))
         .layer(cors)
+        .route("/api/v1/info", get(controllers::info::info))
+        .route("/api/v1/auth/login", post(controllers::auth::login))
+        .route("/api/v1/auth/refresh", post(controllers::auth::refresh))
+        .route("/api/v1/auth/register", post(controllers::auth::register))
+        .route("/api/v1/auth/logout", post(controllers::auth::logout))
 }

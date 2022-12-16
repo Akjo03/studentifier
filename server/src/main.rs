@@ -1,40 +1,46 @@
 mod error;
 mod prelude;
 
-mod router;
-
 mod controllers;
 mod models;
 mod util;
 
-use crate::prelude::*;
-use util::surrealdb::*;
+mod router;
 
-use std::net::SocketAddr;
+use crate::prelude::*;
+use crate::router::get_router;
+use crate::util::surrealdb;
+
 use axum::Server;
 
 #[tokio::main]
 async fn main() -> Result<()> {
-    // Initialize the logger
+    // Initialize logger
     simple_logger::init_with_level(log::Level::Info).unwrap();
 
-    // Check connection to database
-    let db = SurrealClient::default(SocketAddr::from(([127, 0, 0, 1], 8000)));
-    match db.check_connection().await {
-        Ok(_) => log::info!("Connected to SurrealDB"),
-        Err(err) => log::error!("Failed to connect to SurrealDB: {}", err),
-    }
-    
-    // Get router
-    let router = router::get_router();
+    // Get the router
+    let router = get_router();
 
-    // Start server
-    let addr = SocketAddr::from(([127, 0, 0, 1], 3000));
+    // Check if the database is available
+    let db = surrealdb::SurrealClient::default(([127, 0, 0, 1], 8000).into());
+    match db.check_connection().await {
+        Ok(_) => log::info!("Database connection established!"),
+        Err(err) => {
+            return Err(AppError::DatabaseConnectionError(err.to_string()).log());
+        }
+    }
+
+    // Serve the app
+    let addr = ([127, 0, 0, 1], 3000).into();
     log::info!("Server listening on http://{}/...", addr);
-    Server::bind(&addr)
+    match Server::bind(&addr)
         .serve(router.into_make_service())
-        .await
-        .map_err(|err| AppError::ServerStartError(err.to_string()))?;
+        .await {
+            Ok(server) => server,
+            Err(err) => {
+                return Err(AppError::ServerStartError(err.to_string()).log());
+            }
+        };
 
     Ok(())
 }
