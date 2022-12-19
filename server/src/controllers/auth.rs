@@ -32,40 +32,17 @@ pub async fn register(request: Json<RegisterRequest>) -> ApiResult<RegisterRespo
         return Err(ApiError::BadRequest("Username already taken!".to_string()).log());
     }
 
-    // 2. Check if email is already taken
-    log::info!("Checking if email is taken...");
-    let email_taken = match db.sql(format!(
-        "SELECT email FROM user WHERE email = '{}';"
-        , request.0.email
-    )).await {
-        Ok(resp) => {
-            let resp_json = resp.result.unwrap();
-            let resp_array = resp_json.as_array().unwrap();
-            if resp_array.len() > 0 {
-                true
-            } else {
-                false
-            }
-        },
-        Err(_) => {
-            return Err(ApiError::ServerError("Failed to check if email exists!".to_string()).log());
-        }
-    };
 
-    if email_taken {
-        return Err(ApiError::BadRequest("Email already taken!".to_string()).log());
-    }
-
-    // 3. Generate salt and password hash
+    // 2. Generate salt and password hash
     log::info!("Generating salt and password hash...");
     let salt = security::generate_salt();
     let password_hash = security::generate_password_hash(&request.0.password, &salt);
 
-    // 4. Create new user
+    // 3. Create new user
     log::info!("Creating new user...");
     let new_user = match db.sql(format!(
-        "CREATE user SET username = '{}', email = '{}', password = '{}', salt = '{}', first_name = '{}', last_name = '{}';",
-        request.0.username, request.0.email, password_hash, salt, request.0.first_name, request.0.last_name
+        "CREATE user SET username = '{}', password = '{}', salt = '{}', first_name = '{}', last_name = '{}';",
+        request.0.username, password_hash, salt, request.0.first_name, request.0.last_name
     )).await {
         Ok(resp) => {
             let resp_result = resp.result.unwrap();
@@ -78,12 +55,12 @@ pub async fn register(request: Json<RegisterRequest>) -> ApiResult<RegisterRespo
         }
     };
 
-    // 5. Generate access and refresh tokens
+    // 4. Generate access and refresh tokens
     log::info!("Generating access and refresh tokens...");
     let access_token = security::generate_access_token(&new_user.id);
     let refresh_token = security::generate_refresh_token(&new_user.id);
 
-    // 6. Save refresh token to database
+    // 5. Save refresh token to database
     log::info!("Saving refresh token to database...");
     match db.sql(format!(
         "UPDATE {} SET refresh_token = '{}';",
@@ -97,7 +74,7 @@ pub async fn register(request: Json<RegisterRequest>) -> ApiResult<RegisterRespo
 
     log::info!("[Auth - Register] Registration process complete!");
 
-    // 7. Return access and refresh tokens
+    // 6. Return access and refresh tokens
     Ok(RegisterResponse::new(
         access_token,
         refresh_token,

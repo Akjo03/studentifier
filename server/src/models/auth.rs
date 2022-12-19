@@ -64,7 +64,6 @@ pub struct RefreshResponse {
 #[derive(Debug, Serialize, Deserialize)]
 pub struct RegisterRequest {
     pub username: String,
-    pub email: String,
     pub password: String,
     pub first_name: String,
     pub last_name: String,
