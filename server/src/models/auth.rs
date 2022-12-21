@@ -5,7 +5,6 @@ use serde::{Serialize, Deserialize};
 pub struct NewUser {
     pub id: String,
     pub username: String,
-    pub email: String,
     pub password: String,
     pub salt: String,
     pub first_name: String,

@@ -17,6 +17,7 @@ pub async fn register(request: Json<RegisterRequest>) -> ApiResult<RegisterRespo
         Ok(resp) => {
             let resp_json = resp.result.unwrap();
             let resp_array = resp_json.as_array().unwrap();
+            log::info!("resp_array: {:?}", resp_array);
             if resp_array.len() > 0 {
                 true
             } else {

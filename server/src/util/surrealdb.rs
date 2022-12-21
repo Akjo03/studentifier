@@ -36,7 +36,7 @@ pub struct SurrealClient {
         let mut db = Self::new(url, "root".to_string(), "root".to_string());
         db.set_target(
             "akjo".to_string(), 
-            "todo-app".to_string()
+            "studentifier".to_string()
         );
 
         db
