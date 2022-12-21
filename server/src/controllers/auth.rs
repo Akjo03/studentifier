@@ -42,8 +42,8 @@ pub async fn register(request: Json<RegisterRequest>) -> ApiResult<RegisterRespo
     // 3. Create new user
     log::info!("Creating new user...");
     let new_user = match db.sql(format!(
-        "CREATE user SET username = '{}', password = '{}', salt = '{}', first_name = '{}', last_name = '{}';",
-        request.0.username, password_hash, salt, request.0.first_name, request.0.last_name
+        "CREATE user SET username = '{}', password = '{}', salt = '{}';",
+        request.0.username, password_hash, salt
     )).await {
         Ok(resp) => {
             let resp_result = resp.result.unwrap();
