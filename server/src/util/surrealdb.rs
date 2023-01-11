@@ -10,7 +10,7 @@ pub struct QueryResponse {
     pub time: Option<String>,
     pub status: Option<String>,
     pub result: Option<Value>,
-    pub detail: Option<String>,
+    pub details: Option<String>,
 }
 
 pub struct SurrealClient {
@@ -72,7 +72,7 @@ pub struct SurrealClient {
                             if json_resp.status == Some("OK".to_string()) {
                                 Ok(json_resp)
                             } else {
-                                Err(AppError::QueryExecutionError(json_resp.detail.unwrap_or("Unknown error!".to_string())).log())
+                                Err(AppError::QueryExecutionError(json_resp.details.unwrap_or("Unknown error!".to_string())).log())
                             }
                         },
                         Err(err) => Err(AppError::QueryResponseParseError(err.to_string()).log())

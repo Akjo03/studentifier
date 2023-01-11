@@ -21,4 +21,5 @@ pub fn get_router() -> Router {
         .route("/api/v1/auth/refresh", post(controllers::auth::refresh))
         .route("/api/v1/auth/register", post(controllers::auth::register))
         .route("/api/v1/auth/logout", post(controllers::auth::logout))
+        .route("/api/v1/persons/all", get(controllers::persons::get_all_persons))
 }

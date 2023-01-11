@@ -7,6 +7,8 @@ mod util;
 
 mod router;
 
+use std::net::ToSocketAddrs;
+
 use crate::prelude::*;
 use crate::router::get_router;
 use crate::util::surrealdb;
@@ -22,7 +24,12 @@ async fn main() -> Result<()> {
     let router = get_router();
 
     // Check if the database is available
-    let db = surrealdb::SurrealClient::default(([127, 0, 0, 1], 8000).into());
+    let db = surrealdb::SurrealClient::default(match "database:8000".to_socket_addrs() {
+        Ok(mut addr) => addr.next().unwrap_or(([127, 0, 0, 1], 8000).into()),
+        Err(err) => {
+            return Err(AppError::DatabaseConnectionError(err.to_string()).log());
+        }
+    });
     match db.check_connection().await {
         Ok(_) => log::info!("Database connection established!"),
         Err(err) => {

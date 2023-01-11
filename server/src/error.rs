@@ -14,7 +14,7 @@ pub enum AppError {
     QueryResponseParseError(String),
     #[error("Failed to send query to SurrealDB: {0}")]
     QuerySendError(String),
-    #[error("Failed to execute quer on SurrealDB: {0}")]
+    #[error("Failed to execute query on SurrealDB: {0}")]
     QueryExecutionError(String),
     #[error("Failed to connect to SurrealDB: {0}")]
     DatabaseConnectionError(String),
