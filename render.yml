@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: studentifier-server
+    env: docker
+    rootDir: server
+    region: frankfurt
+    plan: free
+  - type: web
+    name: studentifier-database
+    env: docker
+    rootDir: database
+    region: frankfurt
+    plan: free
