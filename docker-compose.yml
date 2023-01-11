@@ -10,6 +10,8 @@ services:
   server:
     build: 
       context: ./server
+    env_file:
+      - ./server/.env
     expose:
       - "3000"
     ports:

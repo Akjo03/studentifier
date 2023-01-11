@@ -24,7 +24,10 @@ async fn main() -> Result<()> {
     let router = get_router();
 
     // Check if the database is available
-    let db = surrealdb::SurrealClient::default(match "database:8000".to_socket_addrs() {
+    let on_render = std::env::var("ONRENDER").unwrap();
+    let connection_str = if on_render == "true" { "https://studentifier-database.onrender.com:8000" } else { "database:8000" };
+    
+    let db = surrealdb::SurrealClient::default(match connection_str.to_socket_addrs() {
         Ok(mut addr) => addr.next().unwrap_or(([127, 0, 0, 1], 8000).into()),
         Err(err) => {
             return Err(AppError::DatabaseConnectionError(err.to_string()).log());
