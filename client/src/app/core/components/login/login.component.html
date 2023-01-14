@@ -1,20 +1,20 @@
 <div class="login">
-    <h2 class="login-header">Log in</h2>
-    <form [formGroup]="loginForm" class="login-container" (ngSubmit)="signIn()">
-      <p [ngClass]="{ 'has-error': isSubmitted && formControls.username.errors }">
-        <input type="text" placeholder="Benutzername" formControlName="username">
-      </p>
-      <div *ngIf="isSubmitted && formControls.email.errors" class="help-block">
-        <div *ngIf="formControls.email.errors.required">Benutzername darf nicht leer sein</div>
-      </div>
-      <p [ngClass]="{ 'has-error': isSubmitted && formControls.password.errors }">
-        <input type="password" placeholder="Password" formControlName="password">
-      </p>
-      <div *ngIf="isSubmitted && formControls.password.errors" class="help-block">
-        <div *ngIf="formControls.password.errors.required">Passwort darf nicht leer sein</div>
-      </div>
-      <p>
-        <input type="submit" value="Anmelden">
-      </p>
-    </form>
-  </div>
+  <h2 class="login-header">Login</h2>
+  <form [formGroup]="loginForm" (ngSubmit)="signIn()" class="login-container">
+    <p [ngClass]="{ 'has-error': isSubmitted && formControls.username.errors }">
+      <input type="text" placeholder="Benutzername" formControlName="username">
+    </p>
+    <div *ngIf="isSubmitted && formControls.username.errors" class="help-block">
+      <div *ngIf="formControls.username.errors.required" class="text-red-700 ml-4">Benutzername darf nicht leer sein</div>
+    </div>
+    <p [ngClass]="{ 'has-error': isSubmitted && formControls.password.errors }">
+      <input type="password" placeholder="Password" formControlName="password">
+    </p>
+    <div *ngIf="isSubmitted && formControls.password.errors" class="help-block">
+      <div *ngIf="formControls.password.errors.required" class="text-red-700 ml-4">Passwort darf nicht leer sein</div>  
+    </div>
+    <p>
+      <button type="submit" class="text-white bg-gradient-to-r from-blue-600 to-blue-600 hover:bg-gradient-to-l hover:from-blue-600 hover:to-teal-300 focus:ring-0 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 w-full">Anmelden</button>
+    </p>
+  </form>
+</div>

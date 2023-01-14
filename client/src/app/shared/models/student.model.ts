@@ -1,8 +1,8 @@
-export interface User {
+export interface Student {
     picture: string;
     firstname: string;
     lastname: string;
     street: string;
-    plz: number;
+    city: string;
     email: string;
 }

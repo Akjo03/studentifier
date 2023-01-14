@@ -2,7 +2,7 @@
 
 .login {
   width: 400px;
-  margin: 16px auto;
+  margin: 10% auto;
   font-size: 16px;
 }
 
@@ -17,11 +17,11 @@
   margin-right: auto;
   margin-left: auto;
   border: 12px solid transparent;
-  border-bottom-color: rgb(65, 122, 212);
+  border-bottom-color: #1e88e5;
 }
 
 .login-header {
-  background: rgb(65, 122, 212);
+  background: #1e88e5;
   padding: 20px;
   font-size: 1.4em;
   font-weight: normal;
@@ -82,4 +82,12 @@
 .has-error input[type="password"] {
     border-color: rgb(216, 12, 12);
     color: rgb(230, 14, 14);
+}
+
+button[type="submit"] {
+  border: transparent;
+}
+
+button[type="submit"]:hover {
+  border: transparent;
 }
