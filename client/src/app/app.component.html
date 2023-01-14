@@ -10,7 +10,7 @@
       </div>
       <div [ngClass]="{'hidden': !showMenu, 'flex': showMenu}" class="lg:flex lg:flex-grow items-center">
         <ul class="flex flex-col lg:flex-row list-none ml-auto">
-          <li class="nav-item" *ngIf="appService.isLoggedIn">
+          <li class="nav-item" *ngIf="authService.isLoggedIn()">
             <a class="px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug text-white hover:opacity-75 cursor-pointer" (click)="logout()">
             Abmelden</a>
           </li>

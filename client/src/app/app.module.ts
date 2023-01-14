@@ -11,7 +11,6 @@ import { LoginComponent } from './core/components/login/login.component';
 import { StudentListComponent } from './core/components/student-list/student-list.component';
 import { AuthService } from './core/services/auth.service';
 import { AuthGuard } from './core/guards/auth.guard';
-import { AppService } from './core/services/app.service';
 
 @NgModule({
   declarations: [
@@ -29,8 +28,7 @@ import { AppService } from './core/services/app.service';
   ],
   providers: [
     AuthGuard,
-    AuthService,
-    AppService
+    AuthService
   ],
   bootstrap: [
     AppComponent

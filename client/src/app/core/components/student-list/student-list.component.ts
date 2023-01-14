@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Student } from 'src/app/shared/models/student.model';
-import { AppService } from '../../services/app.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-student-list',
@@ -25,10 +25,9 @@ export class StudentListComponent implements OnInit {
   activeList = this.students;
   filter_active = false;
 
-  constructor(private appService: AppService, private formBuilder: FormBuilder) {}
+  constructor(private formBuilder: FormBuilder) {}
 
   ngOnInit(): void {
-    this.appService.set_isLoggedIn_true();
     this.searchForm = this.formBuilder.group({
       searchTerm: ['']
     })
