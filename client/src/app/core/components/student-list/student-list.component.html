@@ -1,0 +1,34 @@
+<div class="search">
+    <form [formGroup]="searchForm" (ngSubmit)="filter()">   
+        <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
+        <div class="relative">
+            <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+            </div>
+            <input type="search" id="searchTerm" class="outline-none block sm:max-w-screen-sm w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-0" placeholder="Suche " formControlName="searchTerm" required="">
+            <div class="hidden md:block lg:block xl:block">
+                <button type="submit" id="search-btn" [ngClass]="{'right-2.5': activeList == students, 'right-16': activeList == filterList}" class="text-white absolute bottom-2.5 outline-none bg-blue-600 hover:bg-blue-800 focus:ring-0 font-medium rounded-lg text-sm px-4 py-2">Search</button>
+            </div>
+            <button type="button" class="bg-gray-300 hover:bg-gray-200 text-black absolute inset-y-0 right-0 text-sm text-center px-4" *ngIf="activeList == filterList" (click)="clearFilter()">
+                <img class="w-5 h-5" src="../../../../assets/svg/filter-remove-icon.svg" />
+            </button>
+        </div>
+    </form>
+   
+</div>
+<div class="flex items-center justify-center px-2">
+    <p class="text-gray-600" *ngIf="filter_active && activeList.length == 0">Es konnte keine Übereinstimmung mit '{{searchTerm}}' gefunden werden.</p>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 ">
+        <div *ngFor="let student of activeList" class="justify-center text-center md:text-left lg:text-left xl:text-left">
+            <a href="#" class="flex flex-col items-center bg-white border rounded-lg shadow-md md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
+                <img class="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-l-lg" [src]="'data:image/jpeg;base64,'+student.picture" [alt]="student.firstname + ' ' + student.lastname">
+                <div class="flex flex-col justify-between p-4 leading-normal">
+                    <p class="mb-2 text-md font-bold tracking-tight text-gray-900 dark:text-white">{{ student.lastname }} {{ student.firstname }}</p>
+                    <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{{ student.street }}</p>
+                    <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{{ student.city }}</p>
+                    <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{{ student.email }}</p>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
