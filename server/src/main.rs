@@ -42,7 +42,8 @@ async fn main() -> Result<()> {
         Ok(deploy_mode) => {
             log::info!("Running on deploy mode: {}", deploy_mode);
             match deploy_mode.as_str() {
-                "render" | "docker" => "0.0.0.0:3000".to_string(),
+                "render" => "0.0.0.0".to_string(),
+                "docker" => "0.0.0.0:3000".to_string(),
                 _ => "127.0.0.1:3000".to_string()
             }
         },

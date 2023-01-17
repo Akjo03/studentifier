@@ -56,7 +56,15 @@ pub struct SurrealClient {
     }
 
     pub async fn sql(&self, query: String) -> Result<QueryResponse> {
-        match self.client.post(format!("http://{}/sql", self.url))
+        let post_url = match std::env::var("DEPLOY") {
+            Ok(deploy_mode) => match deploy_mode.as_str() {
+                "render" => "https://{}/sql".to_string(),
+                _ => "http://{}/sql".to_string()
+            },
+            Err(_) => format!("http://{}/sql", self.url)
+        };
+
+        match self.client.post(post_url)
             .basic_auth(&self.username, Some(&self.password))
             .header("Accept", "application/json")
             .header("NS", &self.current_ns)

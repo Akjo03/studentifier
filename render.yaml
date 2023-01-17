@@ -5,24 +5,15 @@ services:
     rootDir: client
     region: frankfurt
     plan: free
-    envVars:
-      - key: PORT
-        value: 80
   - type: web
-    name: studentifier-server
+    name: studentifier-sWerver
     env: docker
     rootDir: server
     region: frankfurt
     plan: free
-    envVars:
-      - key: PORT
-        value: 3000
   - type: web
     name: studentifier-database
     env: docker
     rootDir: database
     region: frankfurt
     plan: free
-    envVars:
-      - key: PORT
-        value: 8000
