@@ -34,7 +34,7 @@ pub struct SurrealClient {
     }
 
     pub fn default() -> Result<Self> {
-        log::info!("Connection to database at: {}", Self::get_connection_str());
+        log::info!("Connecting to database at: {}", Self::get_connection_str());
         
         let mut db = Self::new(match Self::get_connection_str().to_socket_addrs() {
             Ok(mut addr) => addr.next().unwrap_or(([127, 0, 0, 1], 8000).into()),

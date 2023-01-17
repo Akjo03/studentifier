@@ -38,7 +38,23 @@ async fn main() -> Result<()> {
     }
 
     // Serve the app
-    match Server::bind(&"0.0.0.0:8000".to_socket_addrs().unwrap().next().unwrap())
+    let addr = match match std::env::var("DEPLOY") {
+        Ok(deploy_mode) => {
+            log::info!("Running on deploy mode: {}", deploy_mode);
+            match deploy_mode.as_str() {
+                "render" | "docker" => "0.0.0.0:3000".to_string(),
+                _ => "127.0.0.1:3000".to_string()
+            }
+        },
+        Err(_) => "127.0.0.1:3000".to_string()
+    }.to_socket_addrs() {
+        Ok(mut addr) => addr.next().unwrap_or(([127, 0, 0, 1], 3000).into()),
+        Err(err) => {
+            return Err(AppError::ServerStartError(err.to_string()).log());
+        }
+    };
+    log::info!("Server listening on {}...", addr);
+    match Server::bind(&addr)
         .serve(router.into_make_service())
         .await {
             Ok(server) => server,
@@ -46,5 +62,6 @@ async fn main() -> Result<()> {
                 return Err(AppError::ServerStartError(err.to_string()).log());
             }
         };
+
     Ok(())
 }
