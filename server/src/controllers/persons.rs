@@ -16,11 +16,13 @@ pub async fn get_all_persons() -> ApiResult<AllPersonResponse> {
     )).await {
         Ok(resp) => {
             let resp_result = resp.result.unwrap();
+            let person_list = serde_json::from_value::<Vec<Person>>(resp_result.clone()).unwrap();
+            AllPersonResponse::new(person_list)
         },
         Err(err) => {
             return Err(ApiError::ServerError(format!("Failed to retrieve all persons: {}", err)).log());
         }
     };
 
-    Ok(AllPersonResponse::new(Vec::new()))
+    Ok(persons)
 }
