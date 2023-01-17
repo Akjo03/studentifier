@@ -100,7 +100,7 @@ pub struct SurrealClient {
     pub fn get_connection_str() -> String {
         return match std::env::var("DEPLOY") {
             Ok(deploy_mode) => match deploy_mode.as_str() {
-                "render" => "studentifier-database.onrender.com:8000".to_string(),
+                "render" => "studentifier-database.onrender.com".to_string(),
                 "docker" => "database:8000".to_string(),
                 _ => "127.0.0.1:8000".to_string()
             },
