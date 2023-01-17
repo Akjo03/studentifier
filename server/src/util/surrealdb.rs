@@ -34,7 +34,7 @@ pub struct SurrealClient {
     }
 
     pub fn default() -> Result<Self> {
-        log::info!("Connecting to database at: {}", Self::get_connection_str());
+        log::info!("Connection to database at: {}", Self::get_connection_str());
         
         let mut db = Self::new(match Self::get_connection_str().to_socket_addrs() {
             Ok(mut addr) => addr.next().unwrap_or(([127, 0, 0, 1], 8000).into()),
@@ -56,15 +56,7 @@ pub struct SurrealClient {
     }
 
     pub async fn sql(&self, query: String) -> Result<QueryResponse> {
-        let post_url = match std::env::var("DEPLOY") {
-            Ok(deploy_mode) => match deploy_mode.as_str() {
-                "render" => "https://{}/sql".to_string(),
-                _ => "http://{}/sql".to_string()
-            },
-            Err(_) => format!("http://{}/sql", self.url)
-        };
-
-        match self.client.post(post_url)
+        match self.client.post(format!("http://{}/sql", self.url))
             .basic_auth(&self.username, Some(&self.password))
             .header("Accept", "application/json")
             .header("NS", &self.current_ns)
@@ -108,7 +100,7 @@ pub struct SurrealClient {
     pub fn get_connection_str() -> String {
         return match std::env::var("DEPLOY") {
             Ok(deploy_mode) => match deploy_mode.as_str() {
-                "render" => "studentifier-database.onrender.com".to_string(),
+                "render" => "studentifier-database.onrender.com:8000".to_string(),
                 "docker" => "database:8000".to_string(),
                 _ => "127.0.0.1:8000".to_string()
             },
