@@ -21,4 +21,4 @@ A simple web app for displaying a list of students. Focused on implementing good
 
 ## Running locally
 
-Instructions on running this project locally will follow soon!
+Just run `docker compose up`. Obviously you need to have docker installed and running for this.

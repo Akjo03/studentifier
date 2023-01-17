@@ -1,0 +1,13 @@
+CREATE person SET 
+    first_name = "Aline", 
+    last_name = "Ammann",
+    street = "Brüggeweidlistrasse 8",
+    city = "3718 Kandersteg",
+    email = "aam120166@iet-gibb.ch";
+
+CREATE person SET 
+    first_name = "Lukas", 
+    last_name = "Küffer",
+    street = "Chaletweg 15",
+    city = "3174 Thörishaus",
+    email = "lfr120333@iet-gibb.ch";
