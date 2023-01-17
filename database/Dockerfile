@@ -13,4 +13,4 @@ EXPOSE 8000
 
 ENV PATH="${PATH}:~/.surrealdb/surreal"
 
-ENTRYPOINT /surreal start --log debug --user root --pass root file://./.database
+ENTRYPOINT /surreal start --log info --user root --pass root file://./.database

@@ -1,113 +1,113 @@
 DELETE person;
 
-CREATE person SET 
-    first_name = "", 
-    last_name = "",
-    street = "",
-    city = "",
-    email = "";
+CREATE person SET
+    first_name = "Linus", 
+    last_name = "Ackermann",
+    street = "Wiesenstrasse 54",
+    city = "3014 Bern",
+    email = "lac121115@iet-gibb.ch";
 
 CREATE person SET 
-    first_name = "", 
-    last_name = "",
-    street = "",
-    city = "",
-    email = "";
+    first_name = "Aline", 
+    last_name = "Ammann",
+    street = "Brüggeweidlistrasse 8",
+    city = "3718 Kandersteg",
+    email = "aam120166@iet-gibb.ch";
 
 CREATE person SET 
-    first_name = "", 
-    last_name = "",
-    street = "",
-    city = "",
-    email = "";
+    first_name = "Joel", 
+    last_name = "Blaser",
+    street = "Fröschenmoosweg 51",
+    city = "3713 Reichenbach im Kandertal",
+    email = "jbl121127@iet-gibb.ch";
 
 CREATE person SET 
-    first_name = "", 
-    last_name = "",
-    street = "",
-    city = "",
-    email = "";
+    first_name = "Marc", 
+    last_name = "Büetiger",
+    street = "Bruggbühlstrasse 33",
+    city = "3172 Niederwangen b. Bern",
+    email = "mbu107692@iet-gibb.ch";
 
 CREATE person SET 
-    first_name = "", 
-    last_name = "",
-    street = "",
-    city = "",
-    email = "";
+    first_name = "Justin", 
+    last_name = "Ceronio",
+    street = "Chrützweg 19",
+    city = "3707 Därligen",
+    email = "jce121133@iet-gibb.ch";
 
 CREATE person SET 
-    first_name = "", 
-    last_name = "",
-    street = "",
-    city = "",
-    email = "";
+    first_name = "Yann Cédric", 
+    last_name = "Flückiger",
+    street = "Untergasse 13",
+    city = "2514 Ligerz",
+    email = "yfl121149@iet-gibb.ch";
 
 CREATE person SET 
-    first_name = "", 
-    last_name = "",
-    street = "",
-    city = "",
-    email = "";
+    first_name = "Roman", 
+    last_name = "Fäh",
+    street = "Bürglenweg 2",
+    city = "3063 Ittigen",
+    email = "rfa121145@iet-gibb.ch";
 
 CREATE person SET 
-    first_name = "", 
-    last_name = "",
-    street = "",
-    city = "",
-    email = "";
+    first_name = "Rehan", 
+    last_name = "Ghani",
+    street = "Linckweg 2",
+    city = "3052 Zollikofen",
+    email = "rgh104545@iet-gibb.ch";
 
 CREATE person SET 
-    first_name = "", 
-    last_name = "",
-    street = "",
-    city = "",
-    email = "";
+    first_name = "Adhshran", 
+    last_name = "Kirubakaran",
+    street = "Solothurnstrasse 41",
+    city = "3303 Jegenstorf",
+    email = "aki120465@iet-gibb.ch";
 
 CREATE person SET 
-    first_name = "", 
-    last_name = "",
-    street = "",
-    city = "",
-    email = "";
+    first_name = "Lukas", 
+    last_name = "Küffer",
+    street = "Chaletweg 15",
+    city = "3174 Thörishaus",
+    email = "lfr120333@iet-gibb.ch";
 
 CREATE person SET 
-    first_name = "", 
-    last_name = "",
-    street = "",
-    city = "",
-    email = "";
+    first_name = "Timo", 
+    last_name = "Maibach",
+    street = "Bäumlisacker 10",
+    city = "3033 Wohlen b. Bern",
+    email = "tma120535@iet-gibb.ch";
 
 CREATE person SET 
-    first_name = "", 
-    last_name = "",
-    street = "",
-    city = "",
-    email = "";
+    first_name = "Besart", 
+    last_name = "Memeti",
+    street = "Bernstrasse 28",
+    city = "3175 Flamatt",
+    email = "bme121189@iet-gibb.ch";
 
 CREATE person SET 
-    first_name = "", 
-    last_name = "",
-    street = "",
-    city = "",
-    email = "";
+    first_name = "Nicolas Yann", 
+    last_name = "Monigadon",
+    street = "Dorfstrasse 30",
+    city = "3116 Kirchdorf BE",
+    email = "nmo121191@iet-gibb.ch";
 
 CREATE person SET 
-    first_name = "", 
-    last_name = "",
-    street = "",
-    city = "",
-    email = "";
+    first_name = "Patrick", 
+    last_name = "Nyffenegger",
+    street = "Ahornweg 3",
+    city = "3254 Messen",
+    email = "pny120616@iet-gibb.ch";
 
 CREATE person SET 
-    first_name = "", 
-    last_name = "",
-    street = "",
-    city = "",
-    email = "";
+    first_name = "Noel", 
+    last_name = "Rasiah",
+    street = "Etzmattrain 28",
+    city = "3322 Urtenen-Schönbühl",
+    email = "nra120655@iet-gibb.ch";
 
 CREATE person SET 
-    first_name = "", 
-    last_name = "",
-    street = "",
-    city = "",
-    email = "";
+    first_name = "Adrian", 
+    last_name = "Spycher",
+    street = "Nord-Südstrasse 6",
+    city = "4543 Deitingen",
+    email = "asp121206@iet-gibb.ch";
