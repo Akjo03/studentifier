@@ -1,7 +1,5 @@
 use crate::prelude::*;
 
-use std::net::ToSocketAddrs;
-
 use crate::util::surrealdb;
 
 pub async fn health() -> ApiResult<()> {

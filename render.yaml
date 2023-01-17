@@ -1,5 +1,11 @@
 services:
   - type: web
+    name: studentifier-client
+    env: docker
+    rootDir: client
+    region: frankfurt
+    plan: free
+  - type: web
     name: studentifier-server
     env: docker
     rootDir: server

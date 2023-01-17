@@ -3,18 +3,27 @@ services:
   database:
     build:
       context: ./database
-    expose:
-      - "8000"
     ports:
       - "8000:8000"
+    expose:
+      - "8000"
   server:
     build: 
       context: ./server
     env_file:
       - ./server/.env
-    expose:
-      - "3000"
     ports:
      - "3000:3000"
+    expose:
+      - "3000"
     depends_on:
      - database
+  client:
+    build:
+      context: ./client
+    ports:
+     - "80:80"
+    expose:
+      - "80"
+    depends_on:
+     - server

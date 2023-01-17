@@ -7,6 +7,8 @@ mod util;
 
 mod router;
 
+use std::net::ToSocketAddrs;
+
 use crate::prelude::*;
 use crate::router::get_router;
 use crate::util::surrealdb;
@@ -36,9 +38,7 @@ async fn main() -> Result<()> {
     }
 
     // Serve the app
-    let addr = ([127, 0, 0, 1], 3000).into();
-    log::info!("Server listening on http://{}/...", addr);
-    match Server::bind(&addr)
+    match Server::bind(&"0.0.0.0:8000".to_socket_addrs().unwrap().next().unwrap())
         .serve(router.into_make_service())
         .await {
             Ok(server) => server,
@@ -46,6 +46,5 @@ async fn main() -> Result<()> {
                 return Err(AppError::ServerStartError(err.to_string()).log());
             }
         };
-
     Ok(())
 }
