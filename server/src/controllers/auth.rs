@@ -3,25 +3,15 @@ use crate::models::auth::*;
 use crate::util::surrealdb;
 use crate::util::security;
 
-use std::net::ToSocketAddrs;
 use axum::Json;
 
 pub async fn register(request: Json<RegisterRequest>) -> ApiResult<RegisterResponse> {
-    let deploy_mode = match std::env::var("DEPLOY") {
-        Ok(val) => val,
-        Err(_) => "false".to_string(),
-    };
-    let connection_str = match deploy_mode.as_str() {
-        "render" => "studentifier-database.onrender.com:8000",
-        "docker" => "database:8000",
-        _ => "127.0.0.1:8000",
-    };
-    let db = surrealdb::SurrealClient::default(match connection_str.to_socket_addrs() {
-        Ok(mut addr) => addr.next().unwrap_or(([127, 0, 0, 1], 8000).into()),
+    let db = match surrealdb::SurrealClient::default() {
+        Ok(db) => db,
         Err(err) => {
-            return Err(ApiError::ServerError(err.to_string()).log())
-        },
-    });
+            return Err(ApiError::ServerError(format!("Failed to connect to database: {}", err)).log());
+        }
+    };
     log::info!("[Auth - Register] Starting registration process...");
 
     // 1. Check if username is already taken
@@ -97,21 +87,12 @@ pub async fn register(request: Json<RegisterRequest>) -> ApiResult<RegisterRespo
 }
 
 pub async fn login(request: Json<LoginRequest>) -> ApiResult<LoginResponse> {
-    let deploy_mode = match std::env::var("DEPLOY") {
-        Ok(val) => val,
-        Err(_) => "false".to_string(),
-    };
-    let connection_str = match deploy_mode.as_str() {
-        "render" => "studentifier-database.onrender.com:8000",
-        "docker" => "database:8000",
-        _ => "127.0.0.1:8000",
-    };
-    let db = surrealdb::SurrealClient::default(match connection_str.to_socket_addrs() {
-        Ok(mut addr) => addr.next().unwrap_or(([127, 0, 0, 1], 8000).into()),
+    let db = match surrealdb::SurrealClient::default() {
+        Ok(db) => db,
         Err(err) => {
-            return Err(ApiError::ServerError(err.to_string()).log())
-        },
-    });
+            return Err(ApiError::ServerError(format!("Failed to connect to database: {}", err)).log());
+        }
+    };
     log::info!("[Auth - Login] Starting login process...");
 
     // 1. Check if username exists
@@ -200,21 +181,12 @@ pub async fn login(request: Json<LoginRequest>) -> ApiResult<LoginResponse> {
 }
 
 pub async fn refresh(request: Json<RefreshRequest>) -> ApiResult<RefreshResponse> {
-    let deploy_mode = match std::env::var("DEPLOY") {
-        Ok(val) => val,
-        Err(_) => "false".to_string(),
-    };
-    let connection_str = match deploy_mode.as_str() {
-        "render" => "studentifier-database.onrender.com:8000",
-        "docker" => "database:8000",
-        _ => "127.0.0.1:8000",
-    };
-    let db = surrealdb::SurrealClient::default(match connection_str.to_socket_addrs() {
-        Ok(mut addr) => addr.next().unwrap_or(([127, 0, 0, 1], 8000).into()),
+    let db = match surrealdb::SurrealClient::default() {
+        Ok(db) => db,
         Err(err) => {
-            return Err(ApiError::ServerError(err.to_string()).log())
-        },
-    });
+            return Err(ApiError::ServerError(format!("Failed to connect to database: {}", err)).log());
+        }
+    };
     log::info!("[Auth - Refresh] Starting refresh process...");
 
     // 1. Check if refresh token exists
@@ -265,21 +237,12 @@ pub async fn refresh(request: Json<RefreshRequest>) -> ApiResult<RefreshResponse
 }
 
 pub async fn logout(request: Json<LogoutRequest>) -> ApiResult<LogoutResponse> {
-    let deploy_mode = match std::env::var("DEPLOY") {
-        Ok(val) => val,
-        Err(_) => "false".to_string(),
-    };
-    let connection_str = match deploy_mode.as_str() {
-        "render" => "studentifier-database.onrender.com:8000",
-        "docker" => "database:8000",
-        _ => "127.0.0.1:8000",
-    };
-    let db = surrealdb::SurrealClient::default(match connection_str.to_socket_addrs() {
-        Ok(mut addr) => addr.next().unwrap_or(([127, 0, 0, 1], 8000).into()),
+    let db = match surrealdb::SurrealClient::default() {
+        Ok(db) => db,
         Err(err) => {
-            return Err(ApiError::ServerError(err.to_string()).log())
-        },
-    });
+            return Err(ApiError::ServerError(format!("Failed to connect to database: {}", err)).log());
+        }
+    };
     log::info!("[Auth - Logout] Starting logout process...");
 
     // 1. Check if refresh token exists

@@ -7,8 +7,6 @@ mod util;
 
 mod router;
 
-use std::net::ToSocketAddrs;
-
 use crate::prelude::*;
 use crate::router::get_router;
 use crate::util::surrealdb;
@@ -24,24 +22,12 @@ async fn main() -> Result<()> {
     let router = get_router();
 
     // Check if the database is available
-    let deploy_mode = match std::env::var("DEPLOY") {
-        Ok(val) => val,
-        Err(_) => "false".to_string(),
-    };
-    let connection_str = match deploy_mode.as_str() {
-        "render" => "studentifier-database.onrender.com:8000",
-        "docker" => "database:8000",
-        _ => "127.0.0.1:8000",
-    };
-
-    log::info!("Connecting to database at {}...", connection_str);
-
-    let db = surrealdb::SurrealClient::default(match connection_str.to_socket_addrs() {
-        Ok(mut addr) => addr.next().unwrap_or(([127, 0, 0, 1], 8000).into()),
+    let db = match surrealdb::SurrealClient::default() {
+        Ok(db) => db,
         Err(err) => {
-            return Err(AppError::DatabaseInvalidConnectionError(err.to_string()).log());
+            return Err(AppError::DatabaseClientCreationError(format!("Failed to connect to database: {}", err)).log());
         }
-    });
+    };
     match db.check_connection().await {
         Ok(_) => log::info!("Database connection established!"),
         Err(err) => {

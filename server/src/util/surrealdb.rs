@@ -4,6 +4,7 @@ use std::net::SocketAddr;
 use reqwest::Client;
 use serde::{Serialize, Deserialize};
 use serde_json::Value;
+use std::net::ToSocketAddrs;
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct QueryResponse {
@@ -32,14 +33,21 @@ pub struct SurrealClient {
         }
     }
 
-    pub fn default(url: SocketAddr) -> Self {
-        let mut db = Self::new(url, "root".to_string(), "root".to_string());
+    pub fn default() -> Result<Self> {
+        log::info!("Connection to database at: {}", Self::get_connection_str());
+        
+        let mut db = Self::new(match Self::get_connection_str().to_socket_addrs() {
+            Ok(mut addr) => addr.next().unwrap_or(([127, 0, 0, 1], 8000).into()),
+            Err(err) => {
+                return Err(AppError::DatabaseClientCreationError(err.to_string()).log())
+            },
+        }, "root".to_string(), "root".to_string());
         db.set_target(
             "akjo".to_string(), 
             "studentifier".to_string()
         );
 
-        db
+        Ok(db)
     }
 
     pub fn set_target(&mut self, ns: String, db: String) {
@@ -87,5 +95,16 @@ pub struct SurrealClient {
             Ok(_) => Ok(()),
             Err(err) => Err(err)
         }
+    }
+
+    pub fn get_connection_str() -> String {
+        return match std::env::var("DEPLOY") {
+            Ok(deploy_mode) => match deploy_mode.as_str() {
+                "render" => "studentifier-database.onrender.com:8000".to_string(),
+                "docker" => "database:8000".to_string(),
+                _ => "127.0.0.1:8000".to_string()
+            },
+            Err(_) => "127.0.0.1:8000".to_string()
+        };
     }
 }
