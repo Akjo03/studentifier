@@ -33,14 +33,14 @@ export class StudentListComponent implements OnInit {
   }
   
   filter() {
-    this.searchTerm = this.searchForm.get('searchTerm').value;
+    this.searchTerm = this.searchForm.get('searchTerm').value.toLocaleLowerCase();
     this.filterList = [];
     this.filter_active = true;
-    this.students.forEach(student => {
-      if(student.firstname == this.searchTerm || student.lastname == this.searchTerm) {
-        this.filterList.push(student);
-      }
-    });
+    this.filterList = this.students.filter((student) => 
+        student.lastname.toLocaleLowerCase().indexOf(this.searchTerm) !== -1 ||
+        student.firstname.toLocaleLowerCase().indexOf(this.searchTerm)  !== -1 ||
+        (student.lastname.toLocaleLowerCase() + ' ' + student.firstname.toLocaleLowerCase()).indexOf(this.searchTerm) !== -1 ||
+        (student.firstname.toLocaleLowerCase() + ' ' + student.lastname.toLocaleLowerCase()).indexOf(this.searchTerm) !== -1);
     this.activeList = this.filterList;
   }
 
