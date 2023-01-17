@@ -24,15 +24,22 @@ async fn main() -> Result<()> {
     let router = get_router();
 
     // Check if the database is available
-    let on_render = std::env::var("ONRENDER").unwrap();
-    let connection_str = if on_render == "true" { "https://studentifier-database.onrender.com:8000" } else { "database:8000" };
+    let deploy_mode = match std::env::var("DEPLOY") {
+        Ok(val) => val,
+        Err(_) => "false".to_string(),
+    };
+    let connection_str = match deploy_mode.as_str() {
+        "render" => "studentifier-database.onrender.com:8000",
+        "docker" => "database:8000",
+        _ => "127.0.0.1:8000",
+    };
 
     log::info!("Connecting to database at {}...", connection_str);
 
     let db = surrealdb::SurrealClient::default(match connection_str.to_socket_addrs() {
         Ok(mut addr) => addr.next().unwrap_or(([127, 0, 0, 1], 8000).into()),
         Err(err) => {
-            return Err(AppError::DatabaseConnectionError(err.to_string()).log());
+            return Err(AppError::DatabaseInvalidConnectionError(err.to_string()).log());
         }
     });
     match db.check_connection().await {

@@ -18,6 +18,8 @@ pub enum AppError {
     QueryExecutionError(String),
     #[error("Failed to connect to SurrealDB: {0}")]
     DatabaseConnectionError(String),
+    #[error("Connection to SurrealDB is invalid: {0}")]
+    DatabaseInvalidConnectionError(String),
 } impl AppError {
     #[allow(dead_code)]
     pub fn log(self) -> Self {
