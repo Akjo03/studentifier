@@ -16,11 +16,13 @@ pub async fn get_all_persons() -> ApiResult<AllPersonResponse> {
     )).await {
         Ok(resp) => {
             let resp_result = resp.result.unwrap();
+
+            log::info!("Retrieved {} persons", resp_result.len());
         },
         Err(err) => {
             return Err(ApiError::ServerError(format!("Failed to retrieve all persons: {}", err)).log());
         }
     };
 
-    Ok(persons)
+    Ok(AllPersonResponse::new(Vec::new()))
 }
