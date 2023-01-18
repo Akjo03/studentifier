@@ -1,7 +1,8 @@
 export interface Student {
-    picture: string;
-    firstname: string;
-    lastname: string;
+    id: string;
+    picture?: string;
+    first_name: string;
+    last_name: string;
     street: string;
     city: string;
     email: string;
