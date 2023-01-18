@@ -15,7 +15,9 @@ export class AuthService {
   
   public login(userData: User) {
     const endpoint = this.url + "login";
-    const body = JSON.stringify(userData)
+    let obj = {};
+    Object.assign(obj, {"username": userData.username, "password": userData.password, "role": userData.username.toLowerCase()})
+    const body = JSON.stringify(obj)
     const headers = new HttpHeaders({'Content-Type': 'application/json'})
     return this.http.post(endpoint, body, { headers: headers});
   }
