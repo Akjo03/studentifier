@@ -3,6 +3,7 @@ mod prelude;
 
 mod controllers;
 mod models;
+mod services;
 mod util;
 
 mod router;

@@ -33,11 +33,13 @@ pub enum AppError {
 #[allow(dead_code)]
 #[derive(Debug)]
 pub enum ApiError {
+    UnauthorizedError(String),
     ServerError(String),
     BadRequest(String),
 } impl Display for ApiError {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
+            Self::UnauthorizedError(message) => write!(f, "You are not authorized to perform this action: {}", message),
             Self::ServerError(message) => write!(f, "An error occurred while processing your request on the server: {}", message),
             Self::BadRequest(message) => write!(f, "An error occurred while parsing your request: {}", message),
         }
@@ -45,6 +47,7 @@ pub enum ApiError {
 } impl IntoResponse for ApiError {
     fn into_response(self) -> axum::response::Response {
         let (status_code, error_message) = match self {
+            Self::UnauthorizedError(message) => (StatusCode::UNAUTHORIZED, format!("You are not authorized to perform this action: {}", message)),
             Self::ServerError(message) => (StatusCode::INTERNAL_SERVER_ERROR, format!("An error occurred while processing your request on the server: {}", message)),
             Self::BadRequest(message) => (StatusCode::BAD_REQUEST, format!("An error occurred while parsing your request: {}", message)),
         };

@@ -19,16 +19,17 @@ pub fn verify_password_hash(password: &str, salt: &str, hash: &str) -> bool {
     verify(format!("{}{}", password, salt), hash).unwrap()
 }
 
-pub fn generate_access_token(uid: &str) -> String {
+pub fn generate_access_token(uid: &str, role: &str) -> String {
     dotenv::dotenv().ok();
     let jwt_secret = std::env::var("JWT_SECRET").unwrap();
 
     let mut claims = BTreeMap::new();
     claims.insert("exp", (SystemTime::now().duration_since(SystemTime::UNIX_EPOCH).unwrap().as_secs() + (60 * 10)).to_string());
     claims.insert("iat", SystemTime::now().duration_since(SystemTime::UNIX_EPOCH).unwrap().as_secs().to_string());
-    claims.insert("iss", "todo-app-backend".to_string());
+    claims.insert("iss", "studentifier-server".to_string());
     claims.insert("sub", "access_token".to_string());
     claims.insert("uid", uid.to_string());
+    claims.insert("role", role.to_string());
 
     let header = Header {
         algorithm: AlgorithmType::Hs256,
@@ -40,15 +41,16 @@ pub fn generate_access_token(uid: &str) -> String {
     Token::new(header, claims).sign_with_key(&key).unwrap().as_str().to_string()
 }
 
-pub fn generate_refresh_token(uid: &str) -> String {
+pub fn generate_refresh_token(uid: &str, role: &str) -> String {
     let jwt_secret = std::env::var("JWT_SECRET").unwrap();
 
     let mut claims = BTreeMap::new();
     claims.insert("exp", (SystemTime::now().duration_since(SystemTime::UNIX_EPOCH).unwrap().as_secs() + (60 * 60 * 12)).to_string());
     claims.insert("iat", SystemTime::now().duration_since(SystemTime::UNIX_EPOCH).unwrap().as_secs().to_string());
-    claims.insert("iss", "todo-app-backend".to_string());
+    claims.insert("iss", "studentifier-server".to_string());
     claims.insert("sub", "refresh_token".to_string());
     claims.insert("uid", uid.to_string());
+    claims.insert("role", role.to_string());
 
     let header = Header {
         algorithm: AlgorithmType::Hs256,

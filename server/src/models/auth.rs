@@ -13,6 +13,7 @@ pub struct NewUser {
 pub struct LoginRequest {
     pub username: String,
     pub password: String,
+    pub role: String,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -62,6 +63,7 @@ pub struct RefreshResponse {
 pub struct RegisterRequest {
     pub username: String,
     pub password: String,
+    pub role: String,
 } impl IntoResponse for RegisterRequest {
     fn into_response(self) -> axum::response::Response {
         Json(self).into_response()

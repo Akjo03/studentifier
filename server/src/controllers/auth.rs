@@ -62,8 +62,8 @@ pub async fn register(request: Json<RegisterRequest>) -> ApiResult<RegisterRespo
 
     // 4. Generate access and refresh tokens
     log::info!("Generating access and refresh tokens...");
-    let access_token = security::generate_access_token(&new_user.id);
-    let refresh_token = security::generate_refresh_token(&new_user.id);
+    let access_token = security::generate_access_token(&new_user.id, &request.role);
+    let refresh_token = security::generate_refresh_token(&new_user.id, &request.role);
 
     // 5. Save refresh token to database
     log::info!("Saving refresh token to database...");
@@ -157,8 +157,8 @@ pub async fn login(request: Json<LoginRequest>) -> ApiResult<LoginResponse> {
     };
 
     // 3.2 Generate access and refresh tokens
-    let access_token = security::generate_access_token(&user_id);
-    let refresh_token = security::generate_refresh_token(&user_id);
+    let access_token = security::generate_access_token(&user_id, &request.role);
+    let refresh_token = security::generate_refresh_token(&user_id, &request.role);
 
     // 4. Save refresh token to database
     log::info!("Saving refresh token to database...");
@@ -213,8 +213,8 @@ pub async fn refresh(request: Json<RefreshRequest>) -> ApiResult<RefreshResponse
 
     // 2. Generate new access and refresh tokens
     log::info!("Generating new access and refresh tokens...");
-    let access_token = security::generate_access_token(&user_id);
-    let refresh_token = security::generate_refresh_token(&user_id);
+    let access_token = security::generate_access_token(&user_id, "admin");
+    let refresh_token = security::generate_refresh_token(&user_id, "admin");
 
     // 3. Save new refresh token to database
     log::info!("Saving new refresh token to database...");

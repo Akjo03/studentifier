@@ -4,6 +4,7 @@ use serde::{Serialize, Deserialize};
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Person {
     id: String,
+    person_id: String,
     first_name: String,
     last_name: String,
     street: String,
