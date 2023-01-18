@@ -7,6 +7,8 @@ import { environment } from '../../../environment/environment';
   providedIn: 'root'
 })
 export class AuthService {
+  private minutesLeft: number = 60;
+  private interval: any;
   private url = environment.api_url + "/api/v1/auth/";
   constructor(private http: HttpClient) { }
   
@@ -40,11 +42,21 @@ export class AuthService {
     const endpoint = this.url + "logout";
     let obj = {};
     Object.assign(obj, {"refresh_token": localStorage.getItem('refresh_token')})
-    const body = JSON.stringify(obj)
+    const body = JSON.stringify(obj);
     const headers = new HttpHeaders({'Content-Type': 'application/json'})
     this.http.post(endpoint, body, { headers: headers}).subscribe();
-
     localStorage.removeItem('access_token');
     localStorage.removeItem('refresh_token');
+  }
+
+  startTimer() {
+    this.interval = setInterval(() => {
+        if (this.minutesLeft > 0) {
+            this.minutesLeft -= 1;
+        } else {
+            this.refresh();
+            this.minutesLeft = 30;
+        }
+    },60000)
   }
 }
