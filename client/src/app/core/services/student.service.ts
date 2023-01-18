@@ -10,7 +10,11 @@ export class StudentService {
   constructor(private http: HttpClient) { }
   
   public get() {
-    const headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': 'Bearer ' + localStorage.getItem("access_token")})
+    const headers = new HttpHeaders(
+      {
+        'Content-Type': 'application/json', 
+        'Authorization': `Bearer ${localStorage.getItem("access_token")}`
+      })
     return this.http.get(this.url, { headers: headers});
   }
 }

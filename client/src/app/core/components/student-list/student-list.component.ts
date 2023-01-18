@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Student } from 'src/app/shared/models/student.model';
 import { AuthService } from '../../services/auth.service';
@@ -9,7 +9,7 @@ import { StudentService } from '../../services/student.service';
   templateUrl: './student-list.component.html',
   styleUrls: ['./student-list.component.css']
 })
-export class StudentListComponent implements OnInit {
+export class StudentListComponent implements OnInit, OnDestroy {
   
   searchForm: any;
   searchTerm: string = '';
@@ -18,7 +18,11 @@ export class StudentListComponent implements OnInit {
   activeList = this.students;
   filter_active = false;
 
-  constructor(private formBuilder: FormBuilder, private studentService: StudentService) {}
+  constructor(private formBuilder: FormBuilder, private studentService: StudentService, private authService: AuthService) {}
+
+  ngOnDestroy(): void {
+    this.authService.logout();
+  }
 
   ngOnInit(): void {
     setTimeout(() => {
