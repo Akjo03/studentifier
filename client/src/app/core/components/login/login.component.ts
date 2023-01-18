@@ -14,6 +14,7 @@ export class LoginComponent implements OnInit {
 
   loginForm: any;
   isSubmitted  =  false;
+  error: string = '';
 
   get formControls() { return this.loginForm.controls; }
 
@@ -24,11 +25,17 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  login(){
+  async login() {
     this.isSubmitted = true;
     if(this.loginForm.invalid){
       return;
     }
-    this.authService.login(this.loginForm?.value);
+    this.authService.login(this.loginForm?.value).subscribe((data:any) => {
+      this.authService.setToken(data.access_token, data.refresh_token);
+      this.authService.startTimer();
+      this.router.navigate(['/students']);
+    }, error => {
+      this.error = error.error.error
+    });
   }
 }
