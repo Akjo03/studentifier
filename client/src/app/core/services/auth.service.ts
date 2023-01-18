@@ -13,16 +13,16 @@ export class AuthService {
   private url = environment.api_url + "/api/v1/auth/";
   constructor(private http: HttpClient, private router: Router) { }
   
-  public login(userData: User){
+  public login(userData: User) {
     const endpoint = this.url + "login";
     const body = JSON.stringify(userData)
     const headers = new HttpHeaders({'Content-Type': 'application/json'})
-    this.http.post(endpoint, body, { headers: headers}).subscribe((data:any) => {
-      localStorage.setItem('access_token', data.access_token);
-      localStorage.setItem('refresh_token', data.refresh_token);
-      this.router.navigate(['/students']);
-    });
-    this.startTimer();
+    return this.http.post(endpoint, body, { headers: headers});
+  }
+
+  public setToken(access: string, refresh: string) {
+    localStorage.setItem('access_token', access);
+    localStorage.setItem('refresh_token', refresh);
   }
 
   public isLoggedIn() {
@@ -52,7 +52,7 @@ export class AuthService {
     localStorage.removeItem('refresh_token');
   }
 
-  startTimer() {
+  public startTimer() {
     this.interval = setInterval(() => {
         if (this.minutesLeft > 0) {
             this.minutesLeft--;

@@ -1,6 +1,7 @@
 <div class="login">
   <h2 class="login-header">Login</h2>
   <form [formGroup]="loginForm" (ngSubmit)="login()" class="login-container">
+    <div *ngIf="error.length > 0" class="text-red-700 ml-4">{{ error }}</div>
     <p [ngClass]="{ 'has-error': isSubmitted && formControls.username.errors }">
       <input type="text" placeholder="Benutzername" formControlName="username">
     </p>
