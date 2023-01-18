@@ -30,6 +30,5 @@ export class LoginComponent implements OnInit {
       return;
     }
     this.authService.login(this.loginForm?.value);
-    this.router.navigateByUrl('/students');
   }
 }

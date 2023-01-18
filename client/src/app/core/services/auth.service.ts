@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { User } from 'src/app/shared/models/user.model';
 import { environment } from '../../../environment/environment';
 
@@ -7,10 +8,10 @@ import { environment } from '../../../environment/environment';
   providedIn: 'root'
 })
 export class AuthService {
-  private minutesLeft: number = 60;
+  private minutesLeft: number = 10;
   private interval: any;
   private url = environment.api_url + "/api/v1/auth/";
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router: Router) { }
   
   public login(userData: User){
     const endpoint = this.url + "login";
@@ -19,7 +20,9 @@ export class AuthService {
     this.http.post(endpoint, body, { headers: headers}).subscribe((data:any) => {
       localStorage.setItem('access_token', data.access_token);
       localStorage.setItem('refresh_token', data.refresh_token);
+      this.router.navigate(['/students']);
     });
+    this.startTimer();
   }
 
   public isLoggedIn() {
@@ -52,10 +55,10 @@ export class AuthService {
   startTimer() {
     this.interval = setInterval(() => {
         if (this.minutesLeft > 0) {
-            this.minutesLeft -= 1;
+            this.minutesLeft--;
         } else {
             this.refresh();
-            this.minutesLeft = 30;
+            this.minutesLeft = 10;
         }
     },60000)
   }
